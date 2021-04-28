@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ExcelTable.Annotations;
+using ExcelTable.Model;
 
 namespace ExcelTable.ViewModel
 {
@@ -22,12 +23,12 @@ namespace ExcelTable.ViewModel
     //Например, пользователь хочет сохранить введенные в текстовое поле данные. Он нажимает на кнопку и тем
     //самым отправляет команду во ViewModel. А ViewModel уже получает переданные данные и в соответствии с ними обновляет модель.
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName] string prop = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         private int _clicks;
@@ -44,39 +45,38 @@ namespace ExcelTable.ViewModel
 
         }
 
-        public string _word;
+        private int _number1;
+        public int Number1
+        {
+            get { return _number1; }
+            set
+            {
+                _number1 = value;
+                OnPropertyChanged(nameof(Number3)); // уведомление View о том, что изменилась сумма
+            }
+        }
+        private int _number2;
 
-        public string Word
+        public int Number2
+        {
+            get { return _number2; }
+            set { _number2 = value; OnPropertyChanged(nameof(Number3)); }
+        }
+
+
+        public int Number3
         {
             get
             {
-                return _word;
-            }
-            set
-            {
-                _word = value;
-                    OnPropertyChanged(nameof(Word));
-
+                return MathModel.GetSumOf(Number1, Number2);
             }
         }
 
+
+      
         public MainViewModel()
         {
-            Task.Factory.StartNew(() =>
-            {
-                while (Clicks <10)
-                {
-                    Task.Delay(1000).Wait();
-                    Clicks++;
-                    if (_clicks == 10)
-                    {
-                        Word = "Hello";
-                        Clicks = 0;
-                    }
-                }
-            });
-
-           
+            
         }
     }
 }

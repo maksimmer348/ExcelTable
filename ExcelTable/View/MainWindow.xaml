@@ -1,21 +1,29 @@
-﻿<Window x:Class="ExcelTable.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ExcelTable"
-        xmlns:vm="clr-namespace:ExcelTable.ViewModel"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <!--Применительно к WPF представление - это код в xaml, который определяет интерфейс в виде кнопок, текстовых полей и прочих визуальных элементов.
-    -->
+﻿<!--Применительно к WPF представление - это код в xaml, который определяет интерфейс в виде кнопок, текстовых полей и прочих визуальных элементов-->
+<Window x:Class="ExcelTable.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:local="clr-namespace:ExcelTable"
+            xmlns:vm="clr-namespace:ExcelTable.ViewModel" mc:Ignorable="d"
+            Title="MainWindow" Height="450" Width="800">
+    <!--  xmlns:vm="clr-namespace:ExcelTable.ViewModel" пишем сюла простарноство имен которое будет использоватся в качестве View model
+    где wm имя переменной clr-namespace:ExcelTable.ViewModel адрек короый записан в житу пемренную-->
+
     <Window.DataContext>
         <vm:MainViewModel/>
+        <!--вытащим из ппеременной vm наш класс котторый связывает визуальную частьт ии модель через прослойкуу viewwmodel -->
     </Window.DataContext>
     <Grid x:Name="MainRoot">
         <Button Content="Чтениие из ексель" HorizontalAlignment="Left" Margin="95,24,0,0" VerticalAlignment="Top"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="25,24,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="175,217,0,0" Text="{Binding Word}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="366,204,0,0" Text="{Binding Clicks}" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <!--Binding, собственно, соединяет текстовое поле со свойством в VM -->
+        <!--UpdateSourceTrigger, в данном случае, выполняет передачу значение в VM в момент ввода -->
+        <TextBox HorizontalAlignment="Left" Margin="45,94,0,0" Text="{Binding Number1, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Margin="220,94,0,0" Text="{Binding Number2, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <!--Mode=OneWay необходим для призязки свойства только для чтения -->
+        <TextBox HorizontalAlignment="Left" Margin="391,95,0,0" Text="{Binding Number3, Mode=OneWay }"  TextWrapping="Wrap" VerticalAlignment="Top" Width="79"/>
+        
+       
     </Grid>
 </Window>
